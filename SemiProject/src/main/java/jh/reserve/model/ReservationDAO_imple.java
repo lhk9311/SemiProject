@@ -578,12 +578,23 @@ public class ReservationDAO_imple implements ReservationDAO {
             pstmt.setString(1, userid);
 
             rs = pstmt.executeQuery();
+            
+            String storename = "";
 
             while(rs.next()) {
                 Map<String,String> m = new java.util.HashMap<>();
                 m.put("reservationId", String.valueOf(rs.getLong("reservation_id")));
                 m.put("storeId", String.valueOf(rs.getInt("fk_store_id")));
-                m.put("storeName", rs.getString("store_name"));
+                
+                if ( "매장1".equalsIgnoreCase(rs.getString("store_name")) ) {
+                	storename = "SISEON 도산점";
+				} else if ("매장2".equalsIgnoreCase(rs.getString("store_name"))) {
+                	storename = "SISEON 압구정점";
+				} else if ("매장3".equalsIgnoreCase(rs.getString("store_name"))) {
+                	storename = "SISEON 홍대점";
+				}
+       
+                m.put("storeName", storename);
                 m.put("startAt", rs.getString("start_at"));
                 m.put("endAt", rs.getString("end_at"));
                 m.put("reason", rs.getString("reason_code"));

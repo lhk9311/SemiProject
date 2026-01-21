@@ -276,9 +276,10 @@ $(function(){
 <!-- 회원 더미 추가 버튼 -->
 <a href="<%=ctxPath%>/admin/dummyMember50.sp"
    onclick="return confirm('더미 회원 50명을 생성하시겠습니까?');"
-   style="padding:8px 14px;background:#5d4037;color:#fff;border-radius:4px;text-decoration:none;">
+   style="display:none; padding:8px 14px;background:#5d4037;color:#fff;border-radius:4px;text-decoration:none;">
    더미회원 50명 생성(비번 1234 통일)
 </a>
+
 
 <form name="memberOneDetailFrm">
     <input type="hidden" name="userid" />
