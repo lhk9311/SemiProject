@@ -18,7 +18,7 @@ public interface MemberDAO {
     // 회원가입
     int registerMember(MemberDTO member, AddressDTO address) throws SQLException;
     
-    // 회원가입 內 이메일 중복검사 
+    // 회원가입 內 아이디 중복검사 
  	boolean isUseridExists(String userid) throws SQLException;
 
     // 로그인 처리

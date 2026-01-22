@@ -26,10 +26,6 @@ import sp.util.security.Sha256;
  * - Tomcat DBCP(DataSource) 사용
  * - 비밀번호 : SHA-256
  * - 이메일/휴대폰 : AES256
- *
- *   현재 상태
- *   - 로그인 : 정상
- *   - 회원가입 : 정상
  */
 public class MemberDAO_imple implements MemberDAO {
 
@@ -68,9 +64,8 @@ public class MemberDAO_imple implements MemberDAO {
     }
 
     
- // ======================================================
+    
  // 회원가입 (TBL_MEMBER + TBL_ADDRESS 동시 처리)
- // ======================================================
  @Override
  public int registerMember(MemberDTO member, AddressDTO address) throws SQLException {
 
@@ -148,9 +143,7 @@ public class MemberDAO_imple implements MemberDAO {
 
 
     
-    // ======================================================
-    // 이메일 중복검사 
-    // ======================================================
+    // 아이디 중복검사 
 	@Override
 	public boolean isUseridExists(String userid) throws SQLException {
 		  boolean result = false;
@@ -177,7 +170,9 @@ public class MemberDAO_imple implements MemberDAO {
 		    return result;
 	}
 
+	
     
+	// 로그인
 	@Override
 	public MemberDTO login(Map<String, String> paraMap) throws SQLException {
 
