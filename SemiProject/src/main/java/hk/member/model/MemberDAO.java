@@ -27,8 +27,8 @@ public interface MemberDAO {
     // 네이버/카카오 로그인 시 기존 db 회원조회
  	MemberDTO getMemberByUserid(String userid) throws SQLException;
 
- 	// 네이버/카카오 로그인 시 기존 가입회원 이메일 중복 체크
- 	boolean isEmailExists(String email) throws SQLException;
+ 	// 네이버/카카오 로그인 시 기존 가입회원 이메일 중복 체크 -> 삭제 예정 ... 안쓰이고 있는거 같은데 ...??
+ 	//boolean isEmailExists(String email) throws SQLException;
  	
  	// 네이버/카카오 로그인 시 임시 회원 생성
  	int insertSocialTempMember(String userid, String name, String email, String mobile) throws SQLException;

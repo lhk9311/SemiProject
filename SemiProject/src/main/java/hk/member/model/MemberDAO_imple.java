@@ -358,34 +358,27 @@ public class MemberDAO_imple implements MemberDAO {
 		}
 		
 		
-		// 네이버/카카오 로그인 시 기존 가입회원 이메일 중복 체크
-		@Override
-		public boolean isEmailExists(String email) throws SQLException {
-
-		    boolean isExists = false;
-
-		    try {
-		        conn = ds.getConnection();
-
-		        String sql = " SELECT 1 "
-		                   + " FROM tbl_member "
-		                   + " WHERE email = ? ";
-
-		        pstmt = conn.prepareStatement(sql);
-		        pstmt.setString(1, aes.encrypt(email));
-
-		        rs = pstmt.executeQuery();
-
-		        isExists = rs.next();
-
-		    } catch(Exception e) {
-		        e.printStackTrace();
-		    } finally {
-		        close();
-		    }
-
-		    return isExists;
-		}
+		/* 삭제 예정
+		 * // 네이버/카카오 로그인 시 기존 가입회원 이메일 중복 체크
+		 * 
+		 * @Override public boolean isEmailExists(String email) throws SQLException {
+		 * 
+		 * boolean isExists = false;
+		 * 
+		 * try { conn = ds.getConnection();
+		 * 
+		 * String sql = " SELECT 1 " + " FROM tbl_member " + " WHERE email = ? ";
+		 * 
+		 * pstmt = conn.prepareStatement(sql); pstmt.setString(1, aes.encrypt(email));
+		 * 
+		 * rs = pstmt.executeQuery();
+		 * 
+		 * isExists = rs.next();
+		 * 
+		 * } catch(Exception e) { e.printStackTrace(); } finally { close(); }
+		 * 
+		 * return isExists; }
+		 */
 
 		
 		// 네이버/카카오 로그인 시 임시 회원 생성
