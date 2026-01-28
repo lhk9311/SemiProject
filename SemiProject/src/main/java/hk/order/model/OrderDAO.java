@@ -10,15 +10,15 @@ public interface OrderDAO {
     // 마이페이지 주문 목록 (주문처리상태, 기간 필터, 페이징 처리)
 	List<OrderDTO> selectMyOrderList(String memberId, String status, String startDate, String endDate, int startRow, int endRow) throws SQLException;
 
+	// 주문 총 건수 (페이지바용)
+    int getOrderTotalCount(String userid, String status, String startDate, String endDate) throws SQLException;
+	
     // 주문 상세
     List<OrderDetailDTO> selectOrderDetail(int odrCode) throws SQLException;
 
 	// 주문 상세 내 결제 정보 출력용
 	OrderDTO selectOrderInfo(int odrCode) throws SQLException;
     
-	// 주문 총 건수 (페이지바용)
-    int getOrderTotalCount(String userid, String status, String startDate, String endDate) throws SQLException;
-
     // 주문취소/반품/교환 팝업창 상품 목록 조회
 	List<OrderDetailDTO> getOrderDetailList(int odrcode) throws SQLException;
 

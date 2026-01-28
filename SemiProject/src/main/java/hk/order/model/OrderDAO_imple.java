@@ -40,9 +40,8 @@ public class OrderDAO_imple implements OrderDAO {
         try { if (conn != null) conn.close(); } catch (Exception e) {}
     }
 
- // ==================================================
- // 1. 마이페이지 주문 목록 (+페이징)  + claim_status 대표값 포함
- // ==================================================
+
+ // 1. 마이페이지 주문 목록 조회 (+페이징)  + claim_status 대표값 포함
  @Override
  public List<OrderDTO> selectMyOrderList(
          String memberId,
@@ -166,9 +165,7 @@ public class OrderDAO_imple implements OrderDAO {
 
 
 
-    // ==================================================
     // 2. 주문 총 건수 (페이지바용)
-    // ==================================================
     @Override
     public int getOrderTotalCount(
             String userid,
@@ -230,9 +227,8 @@ public class OrderDAO_imple implements OrderDAO {
         return count;
     }
 
-    // ==================================================
+
     // 3. 주문 상세 조회 (주문번호 기준) + 이미지 추가
-    // ==================================================
     @Override
     public List<OrderDetailDTO> selectOrderDetail(int odrCode) {
 
@@ -289,8 +285,7 @@ public class OrderDAO_imple implements OrderDAO {
         return list;
     }
 
-    
-    
+      
     // 주문취소/교환/반품 팝업창 상품 목록 조회
     @Override
     public List<OrderDetailDTO> getOrderDetailList(int odrcode) throws SQLException {
