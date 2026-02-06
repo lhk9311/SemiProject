@@ -182,6 +182,9 @@ $(function(){
         : 블랙리스트(주의회원)
     </span>
 	</div>
+	
+	<div>페이지바오류</div>
+	<div>총 회원 수: ${totalPage} / ${currentPage}</div>
     
     <table id="memberTbl">
         <thead>

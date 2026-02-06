@@ -63,6 +63,7 @@ public class AdminMemberMainController extends AbstractController {
         int last7daysCount = mdao.getLast7DaysRegisterCount();
         
         // 그래프 구현 위해 추가
+       
         List<Map<String, Object>> last7daysList = mdao.getLast7DaysRegisterList();
         
         // 탈퇴율 (컨트롤러 안 만들고 여기서만 처리함)
@@ -91,7 +92,9 @@ public class AdminMemberMainController extends AbstractController {
         request.setAttribute("deleteCount", deleteCount);
         request.setAttribute("todayRegisterCount", todayRegisterCount);
         request.setAttribute("last7daysCount", last7daysCount);
+        
         request.setAttribute("last7daysList", last7daysList);
+        
         request.setAttribute("withdrawRate", withdrawRate);
         request.setAttribute("recentMemberList", recentMemberList);
         request.setAttribute("gradeCountList", gradeCountList);

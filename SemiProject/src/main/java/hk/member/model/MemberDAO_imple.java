@@ -358,29 +358,6 @@ public class MemberDAO_imple implements MemberDAO {
 		}
 		
 		
-		/* 삭제 예정
-		 * // 네이버/카카오 로그인 시 기존 가입회원 이메일 중복 체크
-		 * 
-		 * @Override public boolean isEmailExists(String email) throws SQLException {
-		 * 
-		 * boolean isExists = false;
-		 * 
-		 * try { conn = ds.getConnection();
-		 * 
-		 * String sql = " SELECT 1 " + " FROM tbl_member " + " WHERE email = ? ";
-		 * 
-		 * pstmt = conn.prepareStatement(sql); pstmt.setString(1, aes.encrypt(email));
-		 * 
-		 * rs = pstmt.executeQuery();
-		 * 
-		 * isExists = rs.next();
-		 * 
-		 * } catch(Exception e) { e.printStackTrace(); } finally { close(); }
-		 * 
-		 * return isExists; }
-		 */
-
-		
 		// 네이버/카카오 로그인 시 임시 회원 생성
 		@Override
 		public int insertSocialTempMember(String userid, String name, String email, String mobile) throws SQLException {
@@ -522,10 +499,8 @@ public class MemberDAO_imple implements MemberDAO {
         return userid;
     }
 
-    
-    // ======================================================
+
     // 비밀번호 찾기 (회원 존재 여부)
-    // ======================================================
     @Override
     public boolean isUserExistsForPwd(String userid, String email) {
 
@@ -556,9 +531,7 @@ public class MemberDAO_imple implements MemberDAO {
     }
 
     
-    // ======================================================
     // 비밀번호 찾기 후 비밀번호 업데이트
-    // ======================================================
     @Override
     public boolean updatePassword(String userid, String passwd) {
 
@@ -572,7 +545,7 @@ public class MemberDAO_imple implements MemberDAO {
                        + " WHERE MEMBER_ID = ? ";
 
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, Sha256.encrypt(passwd)); //  암호화 통일
+            pstmt.setString(1, Sha256.encrypt(passwd)); //  단방향 암호화
             pstmt.setString(2, userid);
 
             int n = pstmt.executeUpdate();
@@ -587,11 +560,9 @@ public class MemberDAO_imple implements MemberDAO {
         return result;
     }
 
-    
-    
-    // ===============================
+      
+    // -------------------------------------------------------------------- //  
     // 회원정보 수정
-    // ===============================
     @Override
     public int updateMember(MemberDTO member) throws SQLException {
 
@@ -629,9 +600,8 @@ public class MemberDAO_imple implements MemberDAO {
 
     
     
-    // ===============================
+    // -------------------------------------------------------------------- //  
     // 회원 탈퇴 (status = 0)
-    // ===============================
     @Override
 	public int withdrawMember(String userid) throws SQLException {
     	
@@ -661,9 +631,11 @@ public class MemberDAO_imple implements MemberDAO {
 
     
     
-    // ===============================
+    // ==============================================================- //  
     // 관리자 페이지 內 회원 요약 데이터 조회 - 전체회원 수
     // ===============================
+    // 수동으로 자원을 열고 close()하는 기존 JDBC 방식과 달리  
+    // getTotalMemberCount는 try-with-resources로 자원을 자동 관리하는 최신/안전한 방식
     @Override
 	public int getTotalMemberCount() throws SQLException {
     	
@@ -753,11 +725,12 @@ public class MemberDAO_imple implements MemberDAO {
 	         conn = ds.getConnection();
 	
 	         String sql =
-	                 " SELECT MEMBER_ID, name, gender, email, registerday, status, idle, admin_memo " +
-	                 " FROM tbl_member " +
-	                 " WHERE MEMBER_ID != 'admin' " +
-	                 " ORDER BY registerday DESC " +
-	                 " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+	        		    " SELECT MEMBER_ID, name, gender, email, registerday, status, idle, admin_memo " +
+	        		    " FROM tbl_member " +
+	        		    " WHERE MEMBER_ID != 'admin' " +
+	        		    " ORDER BY registerday DESC, member_id DESC " +  
+	        		    " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+
 	
 	         pstmt = conn.prepareStatement(sql);
 	         pstmt.setInt(1, startRno - 1);
@@ -861,7 +834,7 @@ public class MemberDAO_imple implements MemberDAO {
 	 
 	 
 	// ======================================================
-	// 관리자 페이지 內 최근 7일 날짜별 가입자 수 (그래프)
+	// 관리자 페이지 內 최근 7일 날짜별 가입자 수 가져오기 (그래프)
 	// ======================================================
 	 @Override
 		public List<Map<String, Object>> getLast7DaysRegisterList() throws SQLException {

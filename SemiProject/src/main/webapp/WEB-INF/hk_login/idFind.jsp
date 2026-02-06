@@ -66,12 +66,12 @@ function validateForm() {
 
     if(name === "") {
         alert("성명을 입력하세요.");
-        return false;
+        return false; // 서버 요청 차단
     }
 
     if(email === "") {
         alert("이메일을 입력하세요.");
-        return false;
+        return false; // 서버 요청 차단
     }
 
     const regExp =
@@ -79,10 +79,10 @@ function validateForm() {
 
     if(!regExp.test(email)) {
         alert("이메일 형식이 올바르지 않습니다.");
-        return false;
+        return false; // 서버 요청 차단
     }
 
-    return true;
+    return true; // 검증 통과 시 Controller 호출
 }
 </script>
 </head>
@@ -97,9 +97,7 @@ function validateForm() {
     <div class="login-title">ID FIND</div>
 
     <!-- 아이디 찾기 폼 -->
-    <form method="post"
-          action="<%= ctxPath %>/idFind.sp"
-          onsubmit="return validateForm();">
+    <form method="post" action="<%= ctxPath %>/idFind.sp" onsubmit="return validateForm();">
 
         <div class="form-group">
             <input type="text"

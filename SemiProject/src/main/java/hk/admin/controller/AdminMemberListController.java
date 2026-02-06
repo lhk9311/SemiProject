@@ -33,7 +33,7 @@ public class AdminMemberListController extends AbstractController {
         }
 
         /* ===============================
-         * 2. 검색 파라미터 (기존 그대로)
+         * 2. 검색 파라미터 
          * =============================== */
         String searchType = request.getParameter("searchType");
         String searchWord = request.getParameter("searchWord");
@@ -45,7 +45,7 @@ public class AdminMemberListController extends AbstractController {
          * =============================== */
         if (searchType != null && searchWord != null && !"".equals(searchWord.trim())) {
 
-            // 검색 → 기존 로직 그대로
+            // 검색
             memberList = mdao.selectMemberBySearch(searchType, searchWord.trim());
 
         }
@@ -58,7 +58,7 @@ public class AdminMemberListController extends AbstractController {
                 currentPage = Integer.parseInt(pageNo);
             }
 
-            int sizePerPage = 20; // ⭐ 한 페이지당 20명
+            int sizePerPage = 20; // 한 페이지당 20명
 
             int totalCount = mdao.getTotalMemberCount();
             int totalPage = (int)Math.ceil((double)totalCount / sizePerPage);

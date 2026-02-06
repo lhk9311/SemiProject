@@ -60,9 +60,9 @@ public class OrderDetailController extends AbstractController {
          * =============================== */
         List<OrderDetailDTO> detailList = odao.selectOrderDetail(odrCode);
 
-        request.setAttribute("orderInfo", orderInfo); 
-        request.setAttribute("detailList", detailList);
-        request.setAttribute("odrCode", odrCode);
+        request.setAttribute("orderInfo", orderInfo);  // 주문헤더
+        request.setAttribute("detailList", detailList); // 주문목록
+        request.setAttribute("odrCode", odrCode); // 화면에 주문번호 표시 위함, 버튼 / 링크에 다시 사용 하기 위함
 
         /* ===============================
          * 4. JSP forward
