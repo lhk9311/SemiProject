@@ -8,12 +8,11 @@ public class OrderDetailDTO {
     private int odrQty;             // ODRQTY
     private int odrPrice;           // ODRPRICE
     private int deliveryStatus;     // DELIVERYSTATUS
-    private String deliveryDate;    // DELIVERYDATE
-    
-    private String productImage;    // 추가 (이미지 조회용)
-
+    private String deliveryDate;    // DELIVERYDATE  // 삭제 에정
   
+    
 	// ===== 조회용 =====
+    private String productImage;    // 추가 (이미지 조회용)
     private String productName;
     private String deliveryStatusName;
     

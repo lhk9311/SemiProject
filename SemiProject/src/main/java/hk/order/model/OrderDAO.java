@@ -18,18 +18,17 @@ public interface OrderDAO {
 
 	// 주문 상세 내 결제 정보 출력용
 	OrderDTO selectOrderInfo(int odrCode) throws SQLException;
-    
-	
-	
-	
-	
-	
+ 
     // 주문취소/반품/교환 팝업창 상품 목록 조회
 	List<OrderDetailDTO> getOrderDetailList(int odrcode) throws SQLException;
 
 	// 주문취소/반품/교환 신청
 	int requestClaim(int odrDetailNo, String type, String reason) throws SQLException;
 
+	
+	
+	
+	
 	// 주문취소/반품/교환 신청 요청목록 조회
 	List<OrderDetailDTO> getClaimList() throws SQLException;
 

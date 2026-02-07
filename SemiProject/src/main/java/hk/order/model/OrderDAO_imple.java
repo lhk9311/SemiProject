@@ -164,7 +164,6 @@ public class OrderDAO_imple implements OrderDAO {
  }
 
 
-
     // 2. 주문 총 건수 (페이지바용)
     @Override
     public int getOrderTotalCount(
@@ -239,8 +238,7 @@ public class OrderDAO_imple implements OrderDAO {
 
             String sql =
                 " SELECT d.odrdetailno, d.odrqty, d.odrprice, " +
-                "        d.deliverystatus, d.deliverydate, "
-                + " d.claim_status, " +
+                "        d.deliverystatus, " + 
                 "        p.product_name, " +
                 "        p.pimage,        " +
                 "        CASE d.deliverystatus " +
@@ -267,11 +265,11 @@ public class OrderDAO_imple implements OrderDAO {
                 dto.setOdrPrice(rs.getInt("odrprice"));
                 dto.setDeliveryStatus(rs.getInt("deliverystatus"));
                 dto.setDeliveryStatusName(rs.getString("delivery_status_name"));
-                dto.setDeliveryDate(rs.getString("deliverydate"));
+                //dto.setDeliveryDate(rs.getString("deliverydate")); // 필드 삭제
                 dto.setProductName(rs.getString("product_name"));
                 dto.setProductImage(rs.getString("pimage"));
                 
-                dto.setClaimStatus(rs.getString("claim_status"));   
+                //dto.setClaimStatus(rs.getString("claim_status"));  // 필드 삭제  
 
                 list.add(dto);
             }
@@ -284,8 +282,7 @@ public class OrderDAO_imple implements OrderDAO {
 
         return list;
     }
-
-    
+  
     
      // 4. 주문 상세 내 결제 정보 출력용
  	 @Override
@@ -325,8 +322,6 @@ public class OrderDAO_imple implements OrderDAO {
 
  	     return dto;
  	 }
-
-
 
       
     // 주문취소/교환/반품 팝업창 상품 목록 조회
@@ -378,8 +373,7 @@ public class OrderDAO_imple implements OrderDAO {
         }
 
         return list;
-    }
-
+    }    
     
     
     // 주문취소/교환/반품 신청
@@ -413,8 +407,7 @@ public class OrderDAO_imple implements OrderDAO {
         return result;
     }
 
-    
-    
+        
     // 주문취소/교환/반품 신청 요청목록 조회
     @Override
     public List<OrderDetailDTO> getClaimList() throws SQLException {
@@ -468,33 +461,6 @@ public class OrderDAO_imple implements OrderDAO {
     }
 
 
-    
-    // 주문취소/교환/반품 신청 후 관리자 승인
-    public int approveClaim(int odrDetailNo, String action) throws SQLException {
-        
-    	int result = 0;
-
-        try {
-            conn = ds.getConnection();
-
-            String sql =
-                " UPDATE tbl_order_detail " +
-                " SET claim_status = 'APPROVED' " +
-                " WHERE odrdetailno = ? ";
-
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, odrDetailNo);
-            result = pstmt.executeUpdate();
-
-        } finally {
-            close();
-        }
-
-        return result;
-    }
-
-    
-    
     // 처리대기 건수용
     @Override
     public int getPendingClaimCount() throws SQLException {
@@ -522,6 +488,34 @@ public class OrderDAO_imple implements OrderDAO {
 
         return cnt;
     }
+    
+    
+    // 주문취소/교환/반품 신청 후 관리자 승인
+    public int approveClaim(int odrDetailNo, String action) throws SQLException {
+        
+    	int result = 0;
+
+        try {
+            conn = ds.getConnection();
+
+            String sql =
+                " UPDATE tbl_order_detail " +
+                " SET claim_status = 'APPROVED' " +
+                " WHERE odrdetailno = ? ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, odrDetailNo);
+            result = pstmt.executeUpdate();
+
+        } finally {
+            close();
+        }
+
+        return result;
+    }
+
+    
+   
 
     
     
