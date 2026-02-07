@@ -183,8 +183,8 @@ $(function(){
     </span>
 	</div>
 	
-	<div>페이지바오류</div>
-	<div>총 회원 수: ${totalPage} / ${currentPage}</div>
+	<%-- <div>페이지바오류</div>
+	<div>총 회원 수: ${totalPage} / ${currentPage}</div> --%>
     
     <table id="memberTbl">
         <thead>
@@ -259,20 +259,34 @@ $(function(){
 
     <!-- 페이지네이션 -->
     <ul class="pagination justify-content-center mt-4">
-        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-            <a class="page-link" href="<%=ctxPath%>/admin/memberList.sp?pageNo=${currentPage - 1}">‹</a>
-        </li>
 
-        <c:forEach begin="1" end="${totalPage}" var="i">
-            <li class="page-item ${currentPage == i ? 'active' : ''}">
-                <a class="page-link" href="<%=ctxPath%>/admin/memberList.sp?pageNo=${i}">${i}</a>
-            </li>
-        </c:forEach>
+    <!-- 이전 블럭 -->
+    <li class="page-item ${startPage == 1 ? 'disabled' : ''}">
+        <a class="page-link"
+           href="${pageContext.request.contextPath}/admin/memberList.sp?pageNo=${startPage - 1}">
+            ‹
+        </a>
+    </li>
 
-        <li class="page-item ${currentPage == totalPage ? 'disabled' : ''}">
-            <a class="page-link" href="<%=ctxPath%>/admin/memberList.sp?pageNo=${currentPage + 1}">›</a>
+    <!-- 페이지 번호 -->
+    <c:forEach begin="${startPage}" end="${endPage}" var="i">
+        <li class="page-item ${currentPage == i ? 'active' : ''}">
+            <a class="page-link"
+               href="${pageContext.request.contextPath}/admin/memberList.sp?pageNo=${i}">
+                ${i}
+            </a>
         </li>
-    </ul>
+    </c:forEach>
+
+    <!-- 다음 블럭 -->
+    <li class="page-item ${endPage == totalPage ? 'disabled' : ''}">
+        <a class="page-link"
+           href="${pageContext.request.contextPath}/admin/memberList.sp?pageNo=${endPage + 1}">
+            ›
+        </a>
+    </li>
+
+</ul>
 
 </div>
 

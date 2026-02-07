@@ -51,26 +51,46 @@ public class AdminMemberListController extends AbstractController {
         }
         else {
             // 전체 목록 → 페이징
+        	// 페이지바
+        	int blockSize = 10;
+        	int currentPage = 1;
 
-            int currentPage = 1;
+        	int startPage =
+        	    ((currentPage - 1) / blockSize) * blockSize + 1;
+
+        	int endPage =
+        	    startPage + blockSize - 1;
+          
+        	// 현재 페이지 번호
             String pageNo = request.getParameter("pageNo");
             if (pageNo != null) {
                 currentPage = Integer.parseInt(pageNo);
             }
 
+            // 한 페이지에 보여줄 회원수
             int sizePerPage = 20; // 한 페이지당 20명
 
+            // 전체 회원수 -> 전체 페이지 수 계산
             int totalCount = mdao.getTotalMemberCount();
             int totalPage = (int)Math.ceil((double)totalCount / sizePerPage);
 
+            // db조회용 행 번호 계산
             int startRno = (currentPage - 1) * sizePerPage + 1;
             int endRno   = startRno + sizePerPage - 1;
 
+            // 페이지 범위 보정
+            if (endPage > totalPage) {
+        	    endPage = totalPage;
+        	}     	
+            
+            // 회원목록 조회
             memberList = mdao.selectAllMemberForAdmin(startRno, endRno);
 
             // 페이지바용
             request.setAttribute("currentPage", currentPage);
             request.setAttribute("totalPage", totalPage);
+            request.setAttribute("startPage", startPage);
+            request.setAttribute("endPage", endPage);
         }
 
         /* ===============================

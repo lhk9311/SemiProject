@@ -157,7 +157,6 @@ function checkId() {
 <div class="register-container">
     <div class="title">JOIN US</div>
 
-    <!-- ⭐ Controller 기준: userid / passwd -->
     <form name="registerFrm" method="post" action="<%=ctxPath%>/register.sp">
 
         <div class="section-title">BASIC INFO</div>

@@ -19,9 +19,7 @@ public class GoogleMail {
 	      
 	       // 3. SMTP 서버 정보 설정
 	       //    Google Gmail 인 경우  smtp.gmail.com
-	       prop.put("mail.smtp.host", "smtp.gmail.com");
-	            
-	       
+	       prop.put("mail.smtp.host", "smtp.gmail.com");	            	       
 	       prop.put("mail.smtp.port", "465");
 	       prop.put("mail.smtp.starttls.enable", "true");
 	       prop.put("mail.smtp.auth", "true");
