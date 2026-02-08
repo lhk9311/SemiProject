@@ -180,6 +180,14 @@ function completeClaim(odrdetailno){
 }
 </script>
 
+<c:if test="${not empty sessionScope.alertMsg}">
+    <script>
+        alert("${sessionScope.alertMsg}");
+    </script>
+    <c:remove var="alertMsg" scope="session"/>
+</c:if>
+
+
 <div class="carin-admin-wrap">
 
     <h2 class="page-title">취소 / 반품 / 교환 요청 관리</h2>

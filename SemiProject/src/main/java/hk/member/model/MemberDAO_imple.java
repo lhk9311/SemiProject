@@ -710,9 +710,7 @@ public class MemberDAO_imple implements MemberDAO {
 	    }
 	}
 
-    
-    
-    
+       
     // ===============================
     // 관리자 페이지 內 회원 전체 목록 조회
     // ===============================
@@ -767,110 +765,7 @@ public class MemberDAO_imple implements MemberDAO {
 	     return memberList;
 	 }
 
-	// ======================================================
-	// 관리자 페이지 內 메인 페이지 -  회원 요약 데이터 (오늘 회원가입 수)
-	// ======================================================
-	 @Override
-	 public int getTodayRegisterCount() throws SQLException {
-
-	     int count = 0;
-
- 	     try {
-	        conn = ds.getConnection();
-
-	        String sql = " SELECT COUNT(*) "
-	                   + " FROM tbl_member "
-	                   + " WHERE TRUNC(registerday) = TRUNC(SYSDATE) ";
-
-	        pstmt = conn.prepareStatement(sql);
-	        rs = pstmt.executeQuery();
-
-	        if (rs.next()) {
-	            count = rs.getInt(1);
-	        }
-	     }
-	     finally {
-	        close();
-	     }
-
-	     return count;
-	 }
-
-	 
-	 
-	// ======================================================
-	// 관리자 페이지 內 최근 7일 가입자 수 (합계)
-	// ======================================================
-	 @Override
-	 public int getLast7DaysRegisterCount() throws SQLException {
-		 
-		 int count = 0;
-
-		    try {
-		        conn = ds.getConnection();
-
-		        String sql = " SELECT COUNT(*) "
-		                   + " FROM tbl_member "
-		                   + " WHERE member_id != 'admin' "
-		                   + "   AND registerday >= TRUNC(SYSDATE) - 6 ";
-
-		        pstmt = conn.prepareStatement(sql);
-		        rs = pstmt.executeQuery();
-
-		        if (rs.next()) {
-		            count = rs.getInt(1);
-		        }
-		    }
-		    catch (Exception e) {
-		        e.printStackTrace();
-		    }
-		    finally {
-		        close();
-		    }
-
-		    return count;
-	}
-	 
-	 
-	 
-	// ======================================================
-	// 관리자 페이지 內 최근 7일 날짜별 가입자 수 가져오기 (그래프)
-	// ======================================================
-	 @Override
-		public List<Map<String, Object>> getLast7DaysRegisterList() throws SQLException {
-		 List<Map<String, Object>> list = new ArrayList<>();
-
-		    try {
-		        conn = ds.getConnection();
-
-		        String sql =
-		              " SELECT TO_CHAR(registerday, 'MM-DD') AS reg_date "
-		            + "      , COUNT(*) AS cnt "
-		            + " FROM tbl_member "
-		            + " WHERE registerday >= TRUNC(SYSDATE) - 6 "
-		            + "   AND status = 1 "
-		            + " GROUP BY TO_CHAR(registerday, 'MM-DD') "
-		            + " ORDER BY reg_date ";
-
-		        pstmt = conn.prepareStatement(sql);
-		        rs = pstmt.executeQuery();
-
-		        while (rs.next()) {
-		            Map<String, Object> map = new HashMap<>();
-		            map.put("date", rs.getString("reg_date"));
-		            map.put("count", rs.getInt("cnt"));
-
-		            list.add(map);
-		        }
-		    }
-		    finally {
-		        close();
-		    }
-
-		    return list;
-		}
-	 
-	 
+	 	 
 	// ======================================================
 	// 관리자 페이지 內 회원 검색 조회
 	// ======================================================
@@ -928,8 +823,109 @@ public class MemberDAO_imple implements MemberDAO {
 
 		    return memberList;
 	}
+ 
+	 
+	// ======================================================
+	// 관리자 페이지 內 메인 페이지 -  회원 요약 데이터 (오늘 회원가입 수)
+	// ======================================================
+	 @Override
+	 public int getTodayRegisterCount() throws SQLException {
 
-	
+	     int count = 0;
+
+ 	     try {
+	        conn = ds.getConnection();
+
+	        String sql = " SELECT COUNT(*) "
+	                   + " FROM tbl_member "
+	                   + " WHERE TRUNC(registerday) = TRUNC(SYSDATE) ";
+
+	        pstmt = conn.prepareStatement(sql);
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            count = rs.getInt(1);
+	        }
+	     }
+	     finally {
+	        close();
+	     }
+
+	     return count;
+	 }
+
+	 
+	// ======================================================
+	// 관리자 페이지 內 최근 7일 가입자 수 (합계)
+	// ======================================================
+	 @Override
+	 public int getLast7DaysRegisterCount() throws SQLException {
+		 
+		 int count = 0;
+
+		    try {
+		        conn = ds.getConnection();
+
+		        String sql = " SELECT COUNT(*) "
+		                   + " FROM tbl_member "
+		                   + " WHERE member_id != 'admin' "
+		                   + "   AND registerday >= TRUNC(SYSDATE) - 6 ";
+
+		        pstmt = conn.prepareStatement(sql);
+		        rs = pstmt.executeQuery();
+
+		        if (rs.next()) {
+		            count = rs.getInt(1);
+		        }
+		    }
+		    catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    finally {
+		        close();
+		    }
+
+		    return count;
+	}
+	 
+	 	 
+	// ======================================================
+	// 관리자 페이지 內 최근 7일 날짜별 가입자 수 가져오기 (그래프)
+	// ======================================================
+	 @Override
+		public List<Map<String, Object>> getLast7DaysRegisterList() throws SQLException {
+		 List<Map<String, Object>> list = new ArrayList<>();
+
+		    try {
+		        conn = ds.getConnection();
+
+		        String sql =
+		              " SELECT TO_CHAR(registerday, 'MM-DD') AS reg_date "
+		            + "      , COUNT(*) AS cnt "
+		            + " FROM tbl_member "
+		            + " WHERE registerday >= TRUNC(SYSDATE) - 6 "
+		            + "   AND status = 1 "
+		            + " GROUP BY TO_CHAR(registerday, 'MM-DD') "
+		            + " ORDER BY reg_date ";
+
+		        pstmt = conn.prepareStatement(sql);
+		        rs = pstmt.executeQuery();
+
+		        while (rs.next()) {
+		            Map<String, Object> map = new HashMap<>();
+		            map.put("date", rs.getString("reg_date"));
+		            map.put("count", rs.getInt("cnt"));
+
+		            list.add(map);
+		        }
+		    }
+		    finally {
+		        close();
+		    }
+
+		    return list;
+		}
+		
 	
 	// ======================================================
 	// 관리자 페이지 內 최근 가입 회원 TOP N
@@ -971,7 +967,6 @@ public class MemberDAO_imple implements MemberDAO {
 
 	    return memberList;
 	}
-
 	
 	
 	// ======================================================
@@ -1009,10 +1004,9 @@ public class MemberDAO_imple implements MemberDAO {
 		    return list;
 	}
 
-	
-	
+		
 	// ======================================================
-	// 관리자 페이지 內 등급별 회원수
+	// 관리자 페이지 內 등급별 성별회원수
 	// ======================================================
 	@Override
 	public List<MemberCountDTO> getGenderCountList() throws SQLException {
@@ -1045,9 +1039,7 @@ public class MemberDAO_imple implements MemberDAO {
 	    return list;
 	}
 
-	
-	
-	
+		
 	// ======================================================
 	// 관리자 페이지 內 회원 상세 조회
 	// (입력받은 userid 를 가지고 한명의 회원정보를 가져오기)
@@ -1114,8 +1106,7 @@ public class MemberDAO_imple implements MemberDAO {
 	    return member;
 	}
 
-	
-	
+		
 	// 관리자 페이지 內 회원 더미 50명 추가
 	// 관리자 페이지 內 회원 더미 count명 추가
 	@Override
@@ -1175,8 +1166,9 @@ public class MemberDAO_imple implements MemberDAO {
 	            String mobile = "010" + String.format("%08d", (int)(Math.random() * 100000000));
 
 	            // 7) 포인트 / 등급 / 상태
-	            int point = (int)(Math.random() * 20001);
-
+	            //int point = (int)(Math.random() * 20001);
+	            int point = 5000;  // 5000포인트로 변경
+	            
 	            String grade;
 	            double r = Math.random();
 	            if (r < 0.80) grade = "1";      // 일반
@@ -1244,10 +1236,7 @@ public class MemberDAO_imple implements MemberDAO {
 	    }
 
 	    return success;
-	}
-
-
-	
+	}	
 	
 	// 휴면 회원 해제하기
 	@Override
@@ -1275,8 +1264,7 @@ public class MemberDAO_imple implements MemberDAO {
 	    return n;
 	}
 
-	
-	
+		
 	// 관리자 페이지 내 휴면회원 수 
 	@Override
 	public int getIdleMemberCount() throws SQLException {
@@ -1306,8 +1294,7 @@ public class MemberDAO_imple implements MemberDAO {
 	    return count;
 	}
 
-	
-	
+		
 	// 관리자 페이지 휴면회원 조회
 	@Override
 	public List<MemberDTO> selectIdleMemberListForAdmin() throws SQLException {
@@ -1342,8 +1329,7 @@ public class MemberDAO_imple implements MemberDAO {
 	    return list;
 	}
 
-	
-	
+		
 	// 관리자 페이지 휴면회원 해제
 	@Override
 	public int idleReleaseMany(String[] useridArr) throws SQLException {
@@ -1378,8 +1364,7 @@ public class MemberDAO_imple implements MemberDAO {
 	    return totalCnt;
 	}
 
-	
-	
+		
 	// 관리자 페이지 블랙리스트 등 메모 저장
 	@Override
 	public int updateAdminMemo(String userid, String adminMemo) throws SQLException {
@@ -1527,6 +1512,4 @@ public class MemberDAO_imple implements MemberDAO {
         return result;
     }
 	
-
-
 }

@@ -513,11 +513,7 @@ public class OrderDAO_imple implements OrderDAO {
 
         return result;
     }
-
-    
-   
-
-    
+ 
     
     // 반려 사유 창 주문내역 조회용
     public OrderDetailDTO getClaimDetail(int odrDetailNo) throws SQLException {
@@ -554,7 +550,6 @@ public class OrderDAO_imple implements OrderDAO {
 
         return dto;
     }
-
     
     
     // 주문취소/교환/반품 신청 후 관리자 반려용
@@ -585,8 +580,6 @@ public class OrderDAO_imple implements OrderDAO {
         return result;
     }
 
-    
-    
     
 	 // 주문취소/교환/반품 신청 승인 후 처리완료
 	 // (claim_status, deliverystatus, payment_status, stock)
@@ -670,13 +663,5 @@ public class OrderDAO_imple implements OrderDAO {
 	
 	     return result;
 	 }
-
-	 
-	 
-	
-
-
-
-
-
+ 
 }
