@@ -14,10 +14,10 @@ public class AdminClaimApproveController extends AbstractController {
         int odrDetailNo = Integer.parseInt(request.getParameter("odrdetailno"));
         String action = request.getParameter("action"); // APPROVE / REJECT
 
-        System.out.println("odrdetailno = " + odrDetailNo);
-        System.out.println("action = " + action);
+        //System.out.println("odrdetailno = " + odrDetailNo);
+        //System.out.println("action = " + action); // 파라미터 제거. orderDetail만 있으면 됨
         
-        odao.approveClaim(odrDetailNo, action);
+        odao.approveClaim(odrDetailNo);
 
         super.setRedirect(true);
         super.setViewPage(request.getContextPath() + "/admin/claimList.sp");

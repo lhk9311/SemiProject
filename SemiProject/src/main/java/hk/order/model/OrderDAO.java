@@ -36,7 +36,7 @@ public interface OrderDAO {
 	int getPendingClaimCount() throws SQLException;
 	
 	// 주문취소/교환/반품 신청 후 관리자 승인용
-	public int approveClaim(int odrDetailNo, String action) throws SQLException;
+	public int approveClaim(int odrDetailNo) throws SQLException;
 
 	// 반려 사유 창 주문내역 조회용
 	OrderDetailDTO getClaimDetail(int odrDetailNo) throws SQLException;

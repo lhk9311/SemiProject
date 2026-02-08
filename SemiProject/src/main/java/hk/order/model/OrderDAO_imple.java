@@ -491,7 +491,7 @@ public class OrderDAO_imple implements OrderDAO {
     
     
     // 주문취소/교환/반품 신청 후 관리자 승인
-    public int approveClaim(int odrDetailNo, String action) throws SQLException {
+    public int approveClaim(int odrDetailNo) throws SQLException {
         
     	int result = 0;
 
