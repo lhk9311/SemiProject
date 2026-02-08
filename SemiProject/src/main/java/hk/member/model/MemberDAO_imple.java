@@ -823,7 +823,73 @@ public class MemberDAO_imple implements MemberDAO {
 
 		    return memberList;
 	}
- 
+	
+	
+	// ======================================================
+		// 관리자 페이지 內 회원 상세 조회
+		// (입력받은 userid 를 가지고 한명의 회원정보를 가져오기)
+		// ======================================================
+		@Override
+		public MemberDTO selectOneMember(String userid) {
+
+		    MemberDTO member = null;
+
+		    try {
+		        conn = ds.getConnection();
+
+		        String sql = 
+		            " SELECT m.member_id, "
+		            + "       m.name, "
+		            + "       m.gender, "
+		            + "       m.email, "
+		            + "       m.mobile, "
+		            + "       m.registerday, "
+		            + "       m.status, "
+		            + "       m.point,  "
+		            + "       m.grade_code, "
+		            + "       m.admin_memo, "
+		            + "       TO_CHAR(m.memo_updatedate, 'yyyy-mm-dd hh24:mi:ss') AS memo_updatedate, "
+		            + "       g.grade_name "
+		            + " FROM tbl_member m "
+		            + " JOIN tbl_grade g ON m.grade_code = g.grade_code "
+		            + " WHERE m.member_id = ? ";
+
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setString(1, userid);
+
+		        rs = pstmt.executeQuery();
+
+		        if (rs.next()) {
+
+		            member = new MemberDTO();
+
+		            member.setUserid(rs.getString("member_id"));
+		            member.setName(rs.getString("name"));
+		            member.setGender(rs.getString("gender"));             // 1 / 2 / null
+		            member.setEmail(aes.decrypt(rs.getString("email")));  // 이메일 복호화
+		            member.setMobile(aes.decrypt(rs.getString("mobile")));
+		            member.setRegisterday(rs.getString("registerday"));
+		            member.setStatus(rs.getInt("status"));               // 1:정상 / 0:탈퇴
+		        
+		            // 추가(등급)
+		            member.setGrade_code(rs.getString("grade_code"));
+		            member.setGrade_name(rs.getString("grade_name"));
+		            
+		            member.setAdmin_memo(rs.getString("admin_memo"));
+		            member.setMemo_updatedate(rs.getString("memo_updatedate"));
+		            
+		            member.setPoint(rs.getInt("Point"));
+
+		        }
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    } finally {
+		        close();
+		    }
+
+		    return member;
+		} 
 	 
 	// ======================================================
 	// 관리자 페이지 內 메인 페이지 -  회원 요약 데이터 (오늘 회원가입 수)
@@ -1039,74 +1105,7 @@ public class MemberDAO_imple implements MemberDAO {
 	    return list;
 	}
 
-		
-	// ======================================================
-	// 관리자 페이지 內 회원 상세 조회
-	// (입력받은 userid 를 가지고 한명의 회원정보를 가져오기)
-	// ======================================================
-	@Override
-	public MemberDTO selectOneMember(String userid) {
-
-	    MemberDTO member = null;
-
-	    try {
-	        conn = ds.getConnection();
-
-	        String sql = 
-	            " SELECT m.member_id, "
-	            + "       m.name, "
-	            + "       m.gender, "
-	            + "       m.email, "
-	            + "       m.mobile, "
-	            + "       m.registerday, "
-	            + "       m.status, "
-	            + "       m.point,  "
-	            + "       m.grade_code, "
-	            + "       m.admin_memo, "
-	            + "       TO_CHAR(m.memo_updatedate, 'yyyy-mm-dd hh24:mi:ss') AS memo_updatedate, "
-	            + "       g.grade_name "
-	            + " FROM tbl_member m "
-	            + " JOIN tbl_grade g ON m.grade_code = g.grade_code "
-	            + " WHERE m.member_id = ? ";
-
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, userid);
-
-	        rs = pstmt.executeQuery();
-
-	        if (rs.next()) {
-
-	            member = new MemberDTO();
-
-	            member.setUserid(rs.getString("member_id"));
-	            member.setName(rs.getString("name"));
-	            member.setGender(rs.getString("gender"));             // 1 / 2 / null
-	            member.setEmail(aes.decrypt(rs.getString("email")));  // 이메일 복호화
-	            member.setMobile(aes.decrypt(rs.getString("mobile")));
-	            member.setRegisterday(rs.getString("registerday"));
-	            member.setStatus(rs.getInt("status"));               // 1:정상 / 0:탈퇴
-	        
-	            // 추가(등급)
-	            member.setGrade_code(rs.getString("grade_code"));
-	            member.setGrade_name(rs.getString("grade_name"));
-	            
-	            member.setAdmin_memo(rs.getString("admin_memo"));
-	            member.setMemo_updatedate(rs.getString("memo_updatedate"));
-	            
-	            member.setPoint(rs.getInt("Point"));
-
-	        }
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    } finally {
-	        close();
-	    }
-
-	    return member;
-	}
-
-		
+	
 	// 관리자 페이지 內 회원 더미 50명 추가
 	// 관리자 페이지 內 회원 더미 count명 추가
 	@Override

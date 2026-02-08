@@ -7,6 +7,7 @@ import hk.order.domain.OrderDetailDTO;
 
 public interface OrderDAO {
 
+	// ---- 사용자
     // 마이페이지 주문 목록 (주문처리상태, 기간 필터, 페이징 처리)
 	List<OrderDTO> selectMyOrderList(String memberId, String status, String startDate, String endDate, int startRow, int endRow) throws SQLException;
 
@@ -24,11 +25,8 @@ public interface OrderDAO {
 
 	// 주문취소/반품/교환 신청
 	int requestClaim(int odrDetailNo, String type, String reason) throws SQLException;
-
 	
-	
-	
-	
+	// ---- 관리자
 	// 주문취소/반품/교환 신청 요청목록 조회
 	List<OrderDetailDTO> getClaimList() throws SQLException;
 

@@ -56,6 +56,16 @@ public interface MemberDAO {
 	int idleRelease(String userid) throws SQLException;	
 	
 	
+	
+	// 관리자 페이지 內 회원 전체 목록 조회 (+ 페이징 처리)
+	List<MemberDTO> selectAllMemberForAdmin(int offset, int sizePerPage) throws SQLException;
+		
+	// 관리자 페이지 內 회원 검색 조회
+	List<MemberDTO> selectMemberBySearch(String searchType, String searchWord) throws SQLException;
+	
+	// 관리자 페이지 內 회원 상세 조회 (입력받은 userid 를 가지고 한명의 회원정보를 가져오기) 
+	MemberDTO selectOneMember(String userid);
+	
 	// 관리자 페이지 內 메인 페이지 - 회원 요약 데이터 (전체 회원수) + 전체목록 조회 페이징 처리
 	int getTotalMemberCount() throws SQLException;
 	
@@ -67,17 +77,6 @@ public interface MemberDAO {
 	
 	// 관리자 페이지 내 휴면회원 수 
 	int getIdleMemberCount() throws SQLException;
-	
-	
-	
-	// 관리자 페이지 內 회원 전체 목록 조회 (+ 페이징 처리)
-	 List<MemberDTO> selectAllMemberForAdmin(int offset, int sizePerPage) throws SQLException;
-	
-	// 관리자 페이지 內 회원 검색 조회
-	List<MemberDTO> selectMemberBySearch(String searchType, String searchWord) throws SQLException;
-	
-	// 관리자 페이지 內 회원 상세 조회 (입력받은 userid 를 가지고 한명의 회원정보를 가져오기) 
-	MemberDTO selectOneMember(String userid);
 	
 	// 관리자 페이지 內 오늘자 가입회원 수
 	int getTodayRegisterCount() throws SQLException;
@@ -99,8 +98,6 @@ public interface MemberDAO {
 
 	// 관리자 페이지 內 회원 더미 50명 추가
 	int createDummyMembers(int i) throws SQLException;
-
-
 
 	// 관리자 페이지 휴면회원 조회
 	List<MemberDTO> selectIdleMemberListForAdmin() throws SQLException;

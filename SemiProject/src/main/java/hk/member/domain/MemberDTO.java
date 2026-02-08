@@ -20,19 +20,8 @@ public class MemberDTO {
 	private int status;                // 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
 	private int idle;                  // 휴면유무      0 : 활동중  /  1 : 휴면중    
 	                                   // 마지막으로 로그인 한 날짜시간이 현재시각으로 부터 1년이 지났으면 휴면으로 지정 
-	
-	
-	
-	
-	private String grade_code;		   // 등급코드   
-	private String grade_name;		   // 등급이름
-	private double save_rate;		   // 적립률
-	
-	private int total_amount;          // DB 테이블에는 없지만, 주문 합계액을 담기 위한 용도
-	// ============================================================== //
-
 	// only select 용 
-	private boolean requirePwdChange = false;
+	// private boolean requirePwdChange = false;  ---- 삭제.  안쓰임
 	// 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true
 	// 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지나지 않았으면 false
 	
@@ -40,11 +29,15 @@ public class MemberDTO {
 	private String admin_memo;
 	private String memo_updatedate;
 
-
+	// ============================================================== //
+	private String grade_code;		   // 등급코드   
+	private String grade_name;		   // 등급이름
+	private double save_rate;		   // 적립률
+	
+	private int total_amount;          // DB 테이블에는 없지만, 주문 합계액을 담기 위한 용도
 	// ============================================================== //	   
 
 	// getter / setter
-
 	public String getUserid() {
 		return userid;
 	}
@@ -157,12 +150,15 @@ public class MemberDTO {
 		this.idle = idle;
 	}
 
-	public boolean isRequirePwdChange() {
-		return requirePwdChange;
-	}
-	public void setRequirePwdChange(boolean requirePwdChange) {
-		this.requirePwdChange = requirePwdChange;
-	}
+	/*
+	 *  삭제처리
+		public boolean isRequirePwdChange() {
+			return requirePwdChange;
+		}
+		public void setRequirePwdChange(boolean requirePwdChange) {
+			this.requirePwdChange = requirePwdChange;
+		}
+	*/
 	public String getGrade_code() {
 		return grade_code;
 	}
@@ -181,9 +177,7 @@ public class MemberDTO {
 	public void setSave_rate(double save_rate) {
 		this.save_rate = save_rate;
 	}
-	
-	
-	
+		
 	// 총합산 getter/setter
 	public int getTotal_amount() {
 		return total_amount;
@@ -191,8 +185,7 @@ public class MemberDTO {
 	public void setTotal_amount(int total_amount) {
 		this.total_amount = total_amount;
 	}
-	
-	
+		
 	// 블랙리스트 getter/setter
 	public String getAdmin_memo() {
 		return admin_memo;
