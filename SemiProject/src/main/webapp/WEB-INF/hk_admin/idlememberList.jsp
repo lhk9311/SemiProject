@@ -65,7 +65,7 @@ $(function(){
         $("#allCheck").prop("checked", total === checked);
     });
 
-    // 일괄 휴면 해제
+    // 휴면 해제
     $("#btnRelease").on("click", function(){
 
         const checkedCnt = $("input:checkbox[name='userid']:checked").length;
