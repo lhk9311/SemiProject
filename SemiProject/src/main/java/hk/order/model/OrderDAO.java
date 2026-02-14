@@ -26,6 +26,11 @@ public interface OrderDAO {
 	// 주문취소/반품/교환 신청
 	int requestClaim(int odrDetailNo, String type, String reason) throws SQLException;
 	
+	
+	
+	
+	
+	
 	// ---- 관리자
 	// 주문취소/반품/교환 신청 요청목록 조회
 	List<OrderDetailDTO> getClaimList() throws SQLException;

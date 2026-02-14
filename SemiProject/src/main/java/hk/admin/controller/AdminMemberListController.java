@@ -51,37 +51,51 @@ public class AdminMemberListController extends AbstractController {
         }
         else {
             // 전체 목록 → 페이징
-        	// 페이지바
-        	int blockSize = 10;
-        	int currentPage = 1;
+            // ===============================
+            // 1️⃣ 현재 페이지 번호 먼저 구하기
+            // ===============================
+            int currentPage = 1;
 
-        	int startPage =
-        	    ((currentPage - 1) / blockSize) * blockSize + 1;
-
-        	int endPage =
-        	    startPage + blockSize - 1;
-          
-        	// 현재 페이지 번호
             String pageNo = request.getParameter("pageNo");
             if (pageNo != null) {
                 currentPage = Integer.parseInt(pageNo);
             }
 
             // 한 페이지에 보여줄 회원수
-            int sizePerPage = 20; // 한 페이지당 20명
+            int sizePerPage = 20;
 
-            // 전체 회원수 -> 전체 페이지 수 계산
+            // 전체 회원수
             int totalCount = mdao.getTotalMemberCount();
             int totalPage = (int)Math.ceil((double)totalCount / sizePerPage);
 
-            // db조회용 행 번호 계산
+            // 페이지 번호 보정 (안전처리)
+            if (currentPage < 1) {
+                currentPage = 1;
+            }
+            if (currentPage > totalPage) {
+                currentPage = totalPage;
+            }
+
+            // ===============================
+            // 2️⃣ DB 조회용 행번호 계산
+            // ===============================
             int startRno = (currentPage - 1) * sizePerPage + 1;
             int endRno   = startRno + sizePerPage - 1;
 
-            // 페이지 범위 보정
+            // ===============================
+            // 3️⃣ 페이지 블럭 계산 (★ 여기 위치 중요)
+            // ===============================
+            int blockSize = 10;
+
+            int startPage =
+                ((currentPage - 1) / blockSize) * blockSize + 1;
+
+            int endPage =
+                startPage + blockSize - 1;
+
             if (endPage > totalPage) {
-        	    endPage = totalPage;
-        	}     	
+                endPage = totalPage;
+            }	
             
             // 회원목록 조회
             memberList = mdao.selectAllMemberForAdmin(startRno, endRno);

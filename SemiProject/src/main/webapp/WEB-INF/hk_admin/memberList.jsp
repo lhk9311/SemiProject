@@ -305,5 +305,5 @@ $(function(){
 <!-- 고정 푸터 -->
 <jsp:include page="../footer2.jsp" />
 
-</body>
+</body> 
 </html>
