@@ -555,37 +555,71 @@ public class ProductDAO_imple implements ProductDAO {
 	    return result;
 	}
 	
+
+	
 	// 주문하기
 	@Override
 	public int orderAdd(Map<String, Object> paraMap) throws SQLException {
 	    int result = 0;
-	    
+
 	    try {
 	        conn = ds.getConnection();
-	        conn.setAutoCommit(false); 
+	        conn.setAutoCommit(false);
 
 	        String odrcode = "";
 	        String sql_getOdrcode = " select seq_odrcode.nextval from dual ";
 	        pstmt = conn.prepareStatement(sql_getOdrcode);
 	        rs = pstmt.executeQuery();
+
 	        if(rs.next()) {
 	            odrcode = rs.getString(1);
 	        }
-	        
+
 	        paraMap.put("odrcode", odrcode);
-	        
-	        // 주문 메인 테이블인서트
+
+	        String addrId = String.valueOf(paraMap.get("addr_id"));
+
+	        // 배송지 1건 조회 (같은 conn 사용)
+	        String postcode = "";
+	        String address = "";
+	        String detailaddress = "";
+	        String extraaddress = "";
+
+	        String sql_addr = " select postcode, address, detailaddress, extraaddress "
+	                        + " from tbl_address "
+	                        + " where addr_id = ? ";
+
+	        pstmt = conn.prepareStatement(sql_addr);
+	        pstmt.setString(1, addrId);
+	        rs = pstmt.executeQuery();
+
+	        if(rs.next()) {
+	            postcode = rs.getString("postcode");
+	            address = rs.getString("address");
+	            detailaddress = rs.getString("detailaddress");
+	            extraaddress = rs.getString("extraaddress");
+	        }
+	        else {
+	            conn.rollback();
+	            return 0;
+	        }
+
+	        // 주문 메인 테이블 인서트
 	        String sql = " insert into tbl_order(odrcode, fk_member_id, fk_addr_id, odrtotalprice, odrtotalpoint, payment_status, "
-	                + " postcode, address, detailaddress, extraaddress) "
-	                + " values(?, ?, ?, ?, ?, 1, ?, ?, ?, ?) ";
-	        
+	                   + " postcode, address, detailaddress, extraaddress) "
+	                   + " values(?, ?, ?, ?, ?, 1, ?, ?, ?, ?) ";
+
 	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, odrcode); 
+	        pstmt.setString(1, odrcode);
 	        pstmt.setString(2, String.valueOf(paraMap.get("userid")));
-	        pstmt.setString(3, String.valueOf(paraMap.get("addr_id")));
+	        pstmt.setString(3, addrId);
 	        pstmt.setInt(4, Integer.parseInt(String.valueOf(paraMap.get("totalPrice"))));
 	        pstmt.setInt(5, Integer.parseInt(String.valueOf(paraMap.get("totalPoint"))));
-	        
+	        pstmt.setString(6, postcode);
+	        pstmt.setString(7, address);
+	        pstmt.setString(8, detailaddress);
+	        pstmt.setString(9, extraaddress);
+
 	        int n1 = pstmt.executeUpdate();
 
 	        if(n1 != 1) {
@@ -603,12 +637,13 @@ public class ProductDAO_imple implements ProductDAO {
 	            directItem.put("qty", paraMap.get("qty"));
 	            directItem.put("sale_price", paraMap.get("sale_price"));
 	            itemList.add(directItem);
-	        } else {
+	        }
+	        else {
 	            String cartIds = String.valueOf(paraMap.get("cartIds"));
 	            String sql_cart = " select c.fk_product_id, c.cart_qty, p.sale_price "
 	                            + " from tbl_cart c join tbl_product p on c.fk_product_id = p.product_id "
 	                            + " where c.cart_id in (" + cartIds + ") ";
-	            
+
 	            try (PreparedStatement pstmt2 = conn.prepareStatement(sql_cart);
 	                 ResultSet rs2 = pstmt2.executeQuery()) {
 	                while(rs2.next()) {
@@ -626,31 +661,36 @@ public class ProductDAO_imple implements ProductDAO {
 	        int n3_total = 1;
 
 	        for(Map<String, Object> item : itemList) {
-	            // 주문 상세 테이블 인서트
-	        	sql = " insert into tbl_order_detail(odrdetailno, fk_odrcode, fk_product_id, odrqty, odrprice) "
-	                + " values(seq_odrdetailno.nextval, ?, ?, ?, ?) "; // currval 제거
-	                
-	        	pstmt = conn.prepareStatement(sql);
-	            pstmt.setString(1, odrcode); // 미리 뽑아둔 odrcode 사용
-                pstmt.setString(2, String.valueOf(item.get("product_id")));
-                pstmt.setInt(3, Integer.parseInt(String.valueOf(item.get("qty"))));
-                pstmt.setInt(4, Integer.parseInt(String.valueOf(item.get("sale_price"))));
-                
-                if(pstmt.executeUpdate() != 1) { n2_total = 0; break; }
-	            // 제품 재고량 차감 (재고 부족시 실패)
+	            sql = " insert into tbl_order_detail(odrdetailno, fk_odrcode, fk_product_id, odrqty, odrprice) "
+	                + " values(seq_odrdetailno.nextval, ?, ?, ?, ?) ";
+
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setString(1, odrcode);
+	            pstmt.setString(2, String.valueOf(item.get("product_id")));
+	            pstmt.setInt(3, Integer.parseInt(String.valueOf(item.get("qty"))));
+	            pstmt.setInt(4, Integer.parseInt(String.valueOf(item.get("sale_price"))));
+
+	            if(pstmt.executeUpdate() != 1) { 
+	                n2_total = 0; 
+	                break; 
+	            }
+
 	            sql = " update tbl_product set stock = stock - ? "
 	                + " where product_id = ? and stock >= ? ";
-	            
+
 	            pstmt = conn.prepareStatement(sql);
 	            int qty = Integer.parseInt(String.valueOf(item.get("qty")));
 	            pstmt.setInt(1, qty);
 	            pstmt.setString(2, String.valueOf(item.get("product_id")));
 	            pstmt.setInt(3, qty);
-	            
-	            if(pstmt.executeUpdate() != 1) { n3_total = 0; break; }
+
+	            if(pstmt.executeUpdate() != 1) { 
+	                n3_total = 0; 
+	                break; 
+	            }
 	        }
 
-	        //  장바구니 비우기 (장바구니 주문인 경우만)
+	        // 장바구니 비우기
 	        int n4 = 1;
 	        if("cart".equals(orderType)) {
 	            String cartIds = String.valueOf(paraMap.get("cartIds"));
@@ -658,12 +698,11 @@ public class ProductDAO_imple implements ProductDAO {
 	            pstmt = conn.prepareStatement(sql);
 	            n4 = pstmt.executeUpdate();
 	        }
-	        
-	        // 5포인트 처리 (사용 차감 & 적립 가산)
-	        int n5_1 = 1; // 사용 차감 결과
-	        int n5_2 = 1; // 적립 가산 결과
 
-	        // [사용 포인트 차감]
+	        // 포인트 처리
+	        int n5_1 = 1;
+	        int n5_2 = 1;
+
 	        int usePoint = Integer.parseInt(String.valueOf(paraMap.get("usePoint")));
 	        if(usePoint > 0) {
 	            sql = " update tbl_member set point = point - ? where member_id = ? ";
@@ -673,7 +712,6 @@ public class ProductDAO_imple implements ProductDAO {
 	            n5_1 = pstmt.executeUpdate();
 	        }
 
-	        // [신규 포인트 적립]
 	        int totalPoint = Integer.parseInt(String.valueOf(paraMap.get("totalPoint")));
 	        if(totalPoint > 0) {
 	            sql = " update tbl_member set point = point + ? where member_id = ? ";
@@ -683,22 +721,22 @@ public class ProductDAO_imple implements ProductDAO {
 	            n5_2 = pstmt.executeUpdate();
 	        }
 
-	        // 최종 트랜잭션 확정
 	        if(n1 == 1 && n2_total == 1 && n3_total == 1 && n4 > 0 && n5_1 == 1 && n5_2 == 1) {
 	            conn.commit();
 	            result = 1;
-	        } else {
+	        }
+	        else {
 	            conn.rollback();
 	            result = 0;
 	        }
 
-	    } catch (Exception e) { 
-	        if(conn != null) conn.rollback(); 
-	        e.printStackTrace(); 
+	    } catch (Exception e) {
+	        if(conn != null) conn.rollback();
+	        e.printStackTrace();
 	        result = 0;
 	    } finally {
-	        if(conn != null) conn.setAutoCommit(true); 
-	        close(); 
+	        if(conn != null) conn.setAutoCommit(true);
+	        close();
 	    }
 
 	    return result;
