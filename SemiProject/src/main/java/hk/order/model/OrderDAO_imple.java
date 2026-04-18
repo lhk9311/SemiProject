@@ -340,7 +340,7 @@ public class OrderDAO_imple implements OrderDAO {
                 "      , d.odrqty " +
                 "      , d.odrprice " +
                 "      , d.deliverystatus " +
-                "      , TO_CHAR(d.deliverydate,'YYYY-MM-DD') AS deliverydate " +
+         
                 "      , p.product_name " +
                 "      , p.pimage " +
                 " FROM tbl_order_detail d " +
@@ -362,7 +362,7 @@ public class OrderDAO_imple implements OrderDAO {
                 dto.setOdrQty(rs.getInt("odrqty"));
                 dto.setOdrPrice(rs.getInt("odrprice"));
                 dto.setDeliveryStatus(rs.getInt("deliverystatus"));
-                dto.setDeliveryDate(rs.getString("deliverydate"));
+                
                 dto.setProductName(rs.getString("product_name"));
                 dto.setProductImage(rs.getString("pimage"));
                 list.add(dto);
