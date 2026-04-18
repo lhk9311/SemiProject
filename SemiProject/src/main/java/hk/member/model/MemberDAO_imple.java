@@ -110,7 +110,7 @@ public class MemberDAO_imple implements MemberDAO {
              String sqlAddress =
                      " INSERT INTO TBL_ADDRESS "
                    + " (ADDR_ID, FK_MEMBER_ID, POSTCODE, ADDRESS, DETAILADDRESS, EXTRAADDRESS) "
-                   + " VALUES (SEQ_ADDR_ID.NEXTVAL, ?, ?, ?, ?, ?) ";
+                   + "ㅁ VALUES (SEQ_ADDR_ID.NEXTVAL, ?, ?, ?, ?, ?) ";
 
              pstmt.close(); // 기존 pstmt 정리
              pstmt = conn.prepareStatement(sqlAddress);

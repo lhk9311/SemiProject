@@ -575,8 +575,9 @@ public class ProductDAO_imple implements ProductDAO {
 	        paraMap.put("odrcode", odrcode);
 	        
 	        // 주문 메인 테이블인서트
-	        String sql = " insert into tbl_order(odrcode, fk_member_id, fk_addr_id, odrtotalprice, odrtotalpoint, payment_status) "
-	                   + " values(?, ?, ?, ?, ?, 1) "; 
+	        String sql = " insert into tbl_order(odrcode, fk_member_id, fk_addr_id, odrtotalprice, odrtotalpoint, payment_status, "
+	                + " postcode, address, detailaddress, extraaddress) "
+	                + " values(?, ?, ?, ?, ?, 1, ?, ?, ?, ?) ";
 	        
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, odrcode); 

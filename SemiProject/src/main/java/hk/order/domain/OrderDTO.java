@@ -22,6 +22,12 @@ public class OrderDTO {
     
     // reject 상태
     private String rejectReason;
+    
+    // 스냅샷 address
+    private String postcode;
+    private String address;
+    private String detailaddress;
+    private String extraaddress;
 
 
     // getter / setter
