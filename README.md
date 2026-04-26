@@ -1,65 +1,46 @@
 # 👓 안경 쇼핑몰 플랫폼: SISEON (E-Commerce)
-> **사용자 경험과 데이터 무결성을 고려한 MVC 기반 이커머스 웹 서비스**
+> **MVC 패턴을 활용한 사용자 인증 및 백오피스 운영 관리 시스템 구현**
 > 
-> 단순히 물건을 파는 기능을 넘어, **배송지 정보의 이력 관리**와 **재고 정합성** 등 실제 서비스에서 발생할 수 있는 문제들을 고민하며 개발한 프로젝트입니다.
+> 사용자의 안전한 접속을 위한 **인증(Authentication) 로직**과 데이터 시각화를 통한 **관리자 운영 효율화**를 중점적으로 설계한 프로젝트입니다.
 
 <br>
 
 ## 1. 📅 프로젝트 개요
 - **진행 기간**: 2025.11.28 ~ 2025.12.26 (4주)
 - **개발 인원**: 4명 (팀 프로젝트 / 기여도 25%)
-- **주요 목표**: MVC 패턴의 명확한 이해 및 확장 가능한 백엔드 구조 설계
+- **핵심 기술**: Java, JSP/Servlet, Oracle DB, MyBatis, Chart.js
 
 <br>
 
-## 2. 🛠 기술 스택 (Tech Stack)
+## 2. 👤 담당 역할 및 핵심 기여 (My Role)
 
-### 💻 Backend
-<img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white"/> <img src="https://img.shields.io/badge/Servlet/JSP-007396?style=for-the-badge&logo=java&logoColor=white"/> <img src="https://img.shields.io/badge/Apache%20Tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=black"/>
+### 🔐 사용자 인증 및 보안 관리
+- **로그인 및 세션 관리**: Servlet 세션을 활용한 사용자 인증 상태 유지 및 접근 제어 구현
+- **관리자 전용 블랙리스트 시스템**: `tbl_member` 테이블의 상태(status) 값을 활용해 부적절한 사용자의 접근을 차단하는 로직 구현
 
-### 🗄️ Database
-<img src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white"/> <img src="https://img.shields.io/badge/MyBatis-000000?style=for-the-badge&logo=mybatis&logoColor=white"/>
-
-### 🌐 Frontend
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/> <img src="https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"/> <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white"/>
-
-### 🔌 API & Etc
-- **결제**: iamport (포트원) 결제 API
-- **인증**: CoolSMS (문자 인증), OAuth 2.0 (카카오/구글 소셜 로그인)
-- **기타**: Chart.js (통계 데이터 시각화), ajax, JSON
-
-<br>
-
-## 3. 👤 담당 역할 및 핵심 기여 (My Role)
-
-- **상품 관리 및 전시 (CRUD) 핵심 로직 구현**
-  - 상품 등록, 수정, 삭제 및 카테고리별 동적 필터링 기능 구현
-  - `Controller` ↔ `Service` ↔ `DAO` 계층 분리를 통해 비즈니스 로직의 독립성 확보
-- **장바구니 및 주문 프로세스 설계**
-  - 회원별 장바구니 데이터의 DB 연동 및 실시간 수량 변경 로직 구현
-  - 주문서 생성 및 주문 상세 내역(`ORDER_DETAIL`)의 트랜잭션 처리
-- **외부 모듈 연동 및 검증**
-  - **iamport API** 연동을 통한 실시간 결제 프로세스 구현 및 결제 위변조 검증 로직 적용
+### 📊 백오피스(Admin) 통계 및 대시보드
+- **데이터 시각화**: `Chart.js`를 연동하여 회원 상태(정상/휴면/탈퇴) 비율을 한눈에 확인할 수 있는 대시보드 구현
+- **관리자 메모 기능**: 회원별 특이사항을 기록할 수 있는 비동기(AJAX) 메모 업데이트 시스템 구축
+- **집계 쿼리 최적화**: DB 수준에서 `COUNT(*)` 및 `GROUP BY`를 활용해 대량 데이터의 통계를 효율적으로 산출
 
 <br>
 
 ## 🔍 핵심 트러블슈팅 (Troubleshooting)
 
-### 01. 데이터 일관성: 배송지 정보 스냅샷(Snapshot) 적용
-- **문제**: 주문 완료 후 사용자가 마이페이지에서 주소를 변경하면, **과거 주문 내역의 배송지까지 수정**되어 배송 사고 데이터가 발생하는 문제 확인.
-- **해결**: `MEMBER` 테이블의 주소를 참조하지 않고, 주문 시점에 주소 정보를 `ORDER` 테이블에 직접 삽입(역정규화)하여 **결제 당시의 배송 정보가 보존**되도록 개선.
+### 01. [배포] 정적 호스팅(Netlify) 환경에서의 JSP 구동 실패 분석
+- **문제**: Netlify를 통해 프로젝트 배포 시 '404 Page Not Found' 에러가 발생하며 사이트가 정상적으로 열리지 않음.
+- **원인 분석**: Netlify는 HTML/JS 기반의 **정적 호스팅** 서비스이나, 본 프로젝트는 **Tomcat(WAS)**과 **JVM** 환경이 필요한 동적 웹 애플리케이션(JSP/Servlet)임을 파악.
+- **해결 방안**: 정적/동적 서버의 차이를 기술적으로 분석하고, 향후 AWS EC2 등 서버 사이드 스크립트 실행이 가능한 환경으로의 이전 계획 수립.
 
-### 02. 재고 관리: 승인 시점과 재고 차감의 분리
-- **문제**: 결제와 동시에 재고가 차감될 경우, 관리자의 주문 취소나 반려 시 재고 복구 로직이 복잡해지고 데이터 정합성이 깨질 위험 존재.
-- **해결**: 트랜잭션 단계를 '승인 대기'와 '출고 처리'로 분리. 실제 물류가 이동하는 **최종 승인 시점에 재고가 차감**되도록 설계하여 정합성 확보.
+### 02. [보안] 관리자 메모 입력 시 서버 사이드 검증
+- **문제**: 관리자 메모 입력 시 클라이언트 측 제한만 있을 경우, 비정상적인 대량 텍스트 입력으로 인한 DB 부하 위험 존재.
+- **해결**: Controller 단계에서 **200자 서버 사이드 컷(Validation)** 로직을 추가하고, Null 방지 처리를 통해 DB 데이터 무결성 확보.
 
 <br>
 
-## 📁 프로젝트 구조 (Architecture)
+## 📂 프로젝트 구조 (Focus on My Area)
 ```text
 src/main/java/com/shop
- ├── controller  # HTTP 요청 제어 및 View 매핑
- ├── service     # 비즈니스 로직 및 트랜잭션 관리
- ├── dao         # DB 접근 로직 (MyBatis Mapper 호출)
- ├── dto/vo      # 계층 간 데이터 전송 객체
- └── common      # 공통 필터, 파일 업로드 유틸리티
+ ├── controller  # AdminMemberMain(통계), AdminMemo(메모 관리) 등 제어
+ ├── dao         # 회원 집계 쿼리 및 블랙리스트 업데이트 로직
+ └── common      # 로그인 여부 체크 필터(Filter) 등 공통 보안 처리
