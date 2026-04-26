@@ -504,7 +504,7 @@ public class ProductDAO_imple implements ProductDAO {
 	    return cartList;
 	} // end of public List<CartDTO> getCartList(String userid) throws SQLException ----
     
-	// 장바구니 상품 수량 업데이트
+	// 장바구니 상품 수량 업데이트 //
 	@Override
 	public int updateCartQty(Map<String, String> paraMap) throws SQLException {
 	    int result = 0;
