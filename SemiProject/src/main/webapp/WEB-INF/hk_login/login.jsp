@@ -83,11 +83,11 @@ body{font-family:'Poppins',sans-serif!important;background:#fbfaf8!important}
 <div class="login-wrap">
     <div class="login-title">SISEON</div>
 
+    <!-- 여기가 핵심 !!!  서버로 로그인 요청 보냄 -->
     <form name="loginFrm" method="post" action="<%=ctxPath%>/login.sp">
         <div class="form-group">
             <input type="text" class="form-control" name="userid" id="userid" placeholder="아이디">
         </div>
-
         <div class="form-group">
             <input type="password" class="form-control" name="passwd" id="pwd" placeholder="비밀번호">
         </div>
