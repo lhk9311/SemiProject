@@ -1510,5 +1510,87 @@ public class MemberDAO_imple implements MemberDAO {
         }
         return result;
     }
-	
+
+ // 토큰 저장
+    @Override
+    public void saveRememberMeToken(String userid, String token) throws SQLException {
+
+        try {
+            conn = ds.getConnection();
+
+            String sql = " MERGE INTO remember_me r "
+                       + " USING dual "
+                       + " ON (r.userid = ?) "
+                       + " WHEN MATCHED THEN "
+                       + "   UPDATE SET token = ?, expire_at = SYSDATE + 7 "
+                       + " WHEN NOT MATCHED THEN "
+                       + "   INSERT (userid, token, expire_at) "
+                       + "   VALUES (?, ?, SYSDATE + 7) ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userid);
+            pstmt.setString(2, token);
+            pstmt.setString(3, userid);
+            pstmt.setString(4, token);
+
+            pstmt.executeUpdate();
+
+        } finally {
+            close();
+        }
+    }
+    
+ // 토큰으로 회원 조회
+    @Override
+    public MemberDTO findUserByRememberMeToken(String token) throws SQLException {
+
+        MemberDTO member = null;
+
+        try {
+            conn = ds.getConnection();
+
+            String sql = " SELECT m.member_id, m.name "
+                       + " FROM tbl_member m "
+                       + " JOIN remember_me r ON m.member_id = r.userid "
+                       + " WHERE r.token = ? "
+                       + "   AND r.expire_at > SYSDATE ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, token);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                member = new MemberDTO();
+                member.setUserid(rs.getString("member_id"));
+                member.setName(rs.getString("name"));
+            }
+
+        } finally {
+            close();
+        }
+
+        return member;
+    }
+    
+    
+ // 토큰 삭제
+    @Override
+    public void deleteRememberMeToken(String userid) throws SQLException {
+
+        try {
+            conn = ds.getConnection();
+
+            String sql = " DELETE FROM remember_me WHERE userid = ? ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userid);
+
+            pstmt.executeUpdate();
+
+        } finally {
+            close();
+        }
+    }
+    
 }

@@ -97,6 +97,12 @@ body{font-family:'Poppins',sans-serif!important;background:#fbfaf8!important}
             <label for="saveid" class="mb-0 save-id">아이디 저장</label>
         </div>
 
+		<!-- 추가 -->
+		<div class="form-group d-flex align-items-center">
+		    <input type="checkbox" id="rememberMe" name="rememberMe" value="Y" class="mr-2">
+		    <label for="rememberMe" class="mb-0 save-id">자동 로그인</label>
+		</div>
+
         <button type="button" id="btnLogin" class="btn btn-login btn-block">
             LOGIN
         </button>

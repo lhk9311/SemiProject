@@ -101,6 +101,25 @@ public class LoginController extends AbstractController {
 				// 로그인 성공 (정상회원)
 				HttpSession session = request.getSession();
 				session.setAttribute("loginuser", loginuser);
+				
+				// 추가 (remember me)
+				String rememberMe = request.getParameter("rememberMe");
+
+				if ("Y".equals(rememberMe)) {
+				    String token = java.util.UUID.randomUUID().toString();
+
+				    // DB에 userid, token, expire_at 저장
+				    mdao.saveRememberMeToken(loginuser.getUserid(), token);
+
+				    jakarta.servlet.http.Cookie rememberCookie =
+				        new jakarta.servlet.http.Cookie("rememberMe", token);
+
+				    rememberCookie.setMaxAge(60 * 60 * 24 * 7); // 7일
+				    rememberCookie.setHttpOnly(true);
+				    rememberCookie.setPath(request.getContextPath());
+
+				    response.addCookie(rememberCookie);
+				}
 
 				// ===============================
 				// 관리자 / 일반회원 분기

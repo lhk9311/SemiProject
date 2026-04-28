@@ -120,6 +120,13 @@ public interface MemberDAO {
     // 배송지 삭제하기 (Ajax)
     int deleteAddress(String addrId) throws SQLException;
 
+    // remembe me 토큰 추가 !!
+	void saveRememberMeToken(String userid, String token) throws SQLException; // 로그인 성공 시 토큰 저장
+	 
+	MemberDTO findUserByRememberMeToken(String token) throws SQLException; // 쿠키 토큰으로 회원 조회
+
+	void deleteRememberMeToken(String userid) throws SQLException; // 로그아웃 시 토큰 삭제 
+
 
 
 	
