@@ -1,5 +1,9 @@
 package hk.login.controller;
 
+import hk.member.domain.MemberDTO;
+import hk.member.model.MemberDAO;
+import hk.member.model.MemberDAO_imple;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -7,22 +11,31 @@ import sp.common.controller.AbstractController;
 
 public class LogoutController extends AbstractController {
 
-	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		// 로그아웃 처리하기
-		HttpSession session = request.getSession(); // 세션불러오기
-		
-		// MemberDTO loginuser = (MemberDTO) session.getAttribute("loginuser");
-		
-		// 첫번째 방법 : 세션을 그대로 존재하게끔 해두고, 세션에 저장되어진 어떤 값(지금은 로그인 되어진 회원객체)을 삭제하기
-		// session.removeAttribute("loginuser");
-		
-		// 두번째 방법 : WAS 메모리 상에서 세션에 저장된 모든 데이터를 삭제하는 것
-		session.invalidate(); // 세션 비우기
-		
-		super.setRedirect(true);
-		super.setViewPage(request.getContextPath()+"/index.sp");
-	}
+    private MemberDAO mdao = new MemberDAO_imple();
 
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    	// 세션 방식
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            MemberDTO loginuser = (MemberDTO) session.getAttribute("loginuser");
+
+            if (loginuser != null) {
+                mdao.deleteRememberMeToken(loginuser.getUserid());
+            }
+
+            session.invalidate();
+        }
+
+        // remember me 방식
+        Cookie rememberCookie = new Cookie("rememberMe", null);
+        rememberCookie.setMaxAge(0);
+        rememberCookie.setPath(request.getContextPath());
+        response.addCookie(rememberCookie);
+
+        super.setRedirect(true);
+        super.setViewPage(request.getContextPath() + "/index.sp");
+    }
 }
