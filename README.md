@@ -111,9 +111,58 @@ REQUEST (사용자 신청)
 **해결 방안**
 : 정적/동적 서버의 차이를 기술적으로 분석하고, 향후 AWS EC2 등 서버 사이드 스크립트 실행이 가능한 환경으로의 이전 계획 수립.
 
+---
+
+### 04. [배포] Vultr + Tomcat + Oracle XE(Docker) 환경 배포
+
+**문제**
+: Netlify는 정적 호스팅 기반 서비스이기 때문에 JSP/Servlet 기반 애플리케이션 실행이 불가능했음.
+
+**해결**
+: Vultr VPS 환경에서 Ubuntu 서버를 직접 구성하고, Tomcat + Oracle XE(Docker) 기반으로 프로젝트를 재배포함.
+
+**배포 환경**
+- Vultr Ubuntu 24.04 LTS
+- Apache Tomcat 10
+- Oracle XE 18c (Docker)
+- Nginx Reverse Proxy
+- Gabia Domain
+- Certbot HTTPS(SSL)
+
+**구성 흐름**
+
+```text
+[ Client ]
+     ↓ HTTPS
+[ Nginx ]
+     ↓ 127.0.0.1:8080
+[ Tomcat 10 ]
+     ↓ JDBC
+[ Oracle XE Docker ]
+```
 <br>
 
-## ⚠️ 보완 예정
+### 📚 배포 경험 및 학습 내용
+
+- Vultr VPS 환경에서 Ubuntu 서버 직접 구성
+- Tomcat 수동 설치 및 WAR 배포 경험
+- Docker 기반 Oracle XE 컨테이너 운영
+- Nginx Reverse Proxy 구성 및 포트 포워딩 설정
+- Gabia 도메인 연결 및 DNS 설정
+- Certbot 기반 HTTPS(SSL) 인증서 적용
+- `context.xml` 기반 JDBC DataSource 설정
+- Linux(Ubuntu) 환경에서 방화벽(`ufw`) 및 서버 프로세스 관리 경험
+
+### 🔧 Trouble Shooting
+
+| 문제 | 해결 |
+|---|---|
+| Oracle XE 21c 컨테이너 메모리 부족 (`Exited 224`) | `oracle-xe:18-slim` 경량 이미지로 변경 |
+| SQL Import 시 `ORA-00942` 발생 | 애플리케이션 전용 유저 생성 후 Import |
+| 일부 테이블 누락 | `DBMS_METADATA.GET_DDL` 기반 수동 생성 |
+| Netlify 배포 실패 | VPS 기반 동적 서버 환경으로 전환 |
+
+## ⚠️ 한계점
 
 - **클레임 처리완료 DAO**: `tbl_order_detail`, `tbl_order`, `tbl_product` 순차 UPDATE 시 트랜잭션 미적용 → 부분 성공 리스크 존재. `conn.setAutoCommit(false)` 기반 트랜잭션 처리 적용 필요.
 
@@ -164,3 +213,13 @@ src/main/java/hk/
          ├── PwdFindController.java
          └── GoogleMailController.java     # Gmail SMTP
 ```
+
+<br>
+
+
+
+---
+
+## 메인 화면
+
+<img src="./images/SISEON.png" width="800"/>
