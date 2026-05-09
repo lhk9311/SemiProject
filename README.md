@@ -226,4 +226,4 @@ src/main/java/hk/
 
 ## 메인 화면
 
-<img src="./SemiProject/images/SISEON.png" width="800"/>
+<img src="./images/SISEON.png" width="800"/>
