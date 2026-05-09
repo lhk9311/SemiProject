@@ -97,9 +97,11 @@ REQUEST (사용자 신청)
 
 승인(APPROVED)과 실제 처리(COMPLETED)를 별도 단계로 나눔으로써, 관리자가 한 번 더 확인 후 재고·결제 상태를 변경하도록 개선. 주문 명확성 및 재고 정합성 향상.
 
+<br>
+
 ---
 
-### 03. [배포] 정적 호스팅(Netlify) 환경에서의 JSP 구동 실패 분석
+## [배포] 정적 호스팅(Netlify) 환경에서의 JSP 구동 실패 분석 - 1
 
 **문제**
 : Netlify를 통해 프로젝트 배포 시 '404 Page Not Found' 에러가 발생하며 사이트가 정상적으로 열리지 않음.
@@ -113,7 +115,7 @@ REQUEST (사용자 신청)
 
 ---
 
-### 04. [배포] Vultr + Tomcat + Oracle XE(Docker) 환경 배포
+## [배포] Vultr + Tomcat + Oracle XE(Docker) 환경 배포 - 2
 
 **문제**
 : Netlify는 정적 호스팅 기반 서비스이기 때문에 JSP/Servlet 기반 애플리케이션 실행이 불가능했음.
@@ -152,6 +154,8 @@ REQUEST (사용자 신청)
 - Certbot 기반 HTTPS(SSL) 인증서 적용
 - `context.xml` 기반 JDBC DataSource 설정
 - Linux(Ubuntu) 환경에서 방화벽(`ufw`) 및 서버 프로세스 관리 경험
+
+<br>
 
 ### 🔧 Trouble Shooting
 
@@ -222,4 +226,4 @@ src/main/java/hk/
 
 ## 메인 화면
 
-<img src="./images/SISEON.png" width="800"/>
+<img src="./SemiProject/images/SISEON.png" width="800"/>
