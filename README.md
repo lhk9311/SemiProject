@@ -166,7 +166,9 @@ REQUEST (사용자 신청)
 | 일부 테이블 누락 | `DBMS_METADATA.GET_DDL` 기반 수동 생성 |
 | Netlify 배포 실패 | VPS 기반 동적 서버 환경으로 전환 |
 
-## ⚠️ 한계점
+<br>
+
+## ⚠️ 보완 필요
 
 - **클레임 처리완료 DAO**: `tbl_order_detail`, `tbl_order`, `tbl_product` 순차 UPDATE 시 트랜잭션 미적용 → 부분 성공 리스크 존재. `conn.setAutoCommit(false)` 기반 트랜잭션 처리 적용 필요.
 

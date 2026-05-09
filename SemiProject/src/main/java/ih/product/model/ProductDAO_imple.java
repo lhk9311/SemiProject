@@ -585,6 +585,7 @@ public class ProductDAO_imple implements ProductDAO {
 	        String detailaddress = "";
 	        String extraaddress = "";
 
+	        // 주소 조회
 	        String sql_addr = " select postcode, address, detailaddress, extraaddress "
 	                        + " from tbl_address "
 	                        + " where addr_id = ? ";
