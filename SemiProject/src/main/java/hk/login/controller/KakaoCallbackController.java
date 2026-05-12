@@ -36,7 +36,12 @@ public class KakaoCallbackController extends AbstractController {
         }
 
         String clientId = "b9bece0348ecbd39646aba63ecf1f7ea"; // 카카오_REST_API_KEY
-        String redirectURI = "http://localhost:9090/SemiProject/kakaoCallback.sp";
+        
+        // 배포
+        String redirectURI =
+        		"http://52.78.28.91:8082/SemiProject/kakaoCallback.sp";
+        // 로컬
+        //String redirectURI = "http://localhost:9090/SemiProject/kakaoCallback.sp";
 
         // ==================================================
         // 1) access_token 발급 (POST)

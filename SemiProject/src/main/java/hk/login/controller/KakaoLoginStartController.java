@@ -13,7 +13,11 @@ public class KakaoLoginStartController extends AbstractController {
 
         String clientId = "b9bece0348ecbd39646aba63ecf1f7ea"; // 카카오REST_API_KEY
 
-        String redirectURI = URLEncoder.encode("http://localhost:9090/SemiProject/kakaoCallback.sp", "UTF-8");
+        // 배포
+        String redirectURI =
+        		"http://52.78.28.91:8082/SemiProject/kakaoCallback.sp";
+        // 로컬
+        // String redirectURI = URLEncoder.encode("http://localhost:9090/SemiProject/kakaoCallback.sp", "UTF-8");
 
         String apiURL = "https://kauth.kakao.com/oauth/authorize"
                       + "?response_type=code"
