@@ -15,7 +15,7 @@ public class KakaoLoginStartController extends AbstractController {
 
         // 배포
         String redirectURI =
-        		"http://52.78.28.91:8082/SemiProject/kakaoCallback.sp";
+        		"http://158.247.198.57:8080/SemiProject/kakaoCallback.sp";
         // 로컬
         // String redirectURI = URLEncoder.encode("http://localhost:9090/SemiProject/kakaoCallback.sp", "UTF-8");
 

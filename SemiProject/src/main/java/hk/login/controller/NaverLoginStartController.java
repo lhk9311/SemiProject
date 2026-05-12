@@ -18,7 +18,7 @@ public class NaverLoginStartController extends AbstractController {
         // ★ 네이버 개발자센터에 등록한 Redirect URI 그대로
         // 배포
         String redirectURI = URLEncoder.encode(
-        	    "http://52.78.28.91:8082/SemiProject/naverCallback.sp",
+        	    "http://158.247.198.57:8080/SemiProject/naverCallback.sp",
         	    "UTF-8"
         	);
         // 로컬
