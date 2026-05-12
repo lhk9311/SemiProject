@@ -16,7 +16,13 @@ public class NaverLoginStartController extends AbstractController {
         String clientId = "PYBFkSdMo4dphDcHvPnj"; // 네이버ClientId
 
         // ★ 네이버 개발자센터에 등록한 Redirect URI 그대로
-        String redirectURI = URLEncoder.encode("http://localhost:9090/SemiProject/naverCallback.sp", "UTF-8");
+        // 배포
+        String redirectURI = URLEncoder.encode(
+        	    "http://52.78.28.91:8082/SemiProject/naverCallback.sp",
+        	    "UTF-8"
+        	);
+        // 로컬
+        //String redirectURI = URLEncoder.encode("http://localhost:9090/SemiProject/naverCallback.sp", "UTF-8");
 
         // state는 필수(보안)
         String state = UUID.randomUUID().toString();
