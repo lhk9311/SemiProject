@@ -21,7 +21,7 @@
 
 <br>
 
-## 🔗 링크
+## 링크
 
 - **PPT (코드 설명 / 스토리보드 / 다이어그램)**: [Canva 바로가기](https://www.canva.com/design/DAHBM_4bkgg/9G5BpjgAa5WxccCtyKX6eA/edit)
 - **시연 영상**: [YouTube 바로가기](https://www.youtube.com/watch?v=UBd21oA-Vpc)
@@ -157,7 +157,7 @@ REQUEST (사용자 신청)
 
 <br>
 
-### 🔧 Trouble Shooting
+### Trouble Shooting
 
 | 문제 | 해결 |
 |---|---|
@@ -174,7 +174,7 @@ REQUEST (사용자 신청)
 
 <br>
 
-## 📁 프로젝트 구조 (담당 영역 중심)
+## 프로젝트 구조 (담당 영역 중심)
 
 ```
 src/main/java/hk/
