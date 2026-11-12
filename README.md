@@ -1,20 +1,20 @@
-# 👓 SISEON — 안경 판매 쇼핑몰
+# SISEON — 안경 판매 쇼핑몰
 
 > **Java Servlet/JSP 기반 MVC 패턴 E-Commerce 플랫폼**  
 > 사용자 인증 흐름 전반과 관리자 백오피스 운영 기능을 직접 설계·구현한 팀 프로젝트입니다.
 
 <br>
 
-## 📌 프로젝트 개요
+## 프로젝트 개요
 
 | 항목 | 내용 |
 |---|---|
 | 진행 기간 | 2025.11.28 ~ 2025.12.26 (4주) |
-| 팀 구성 | 4인 팀 프로젝트 (기여도 25%) |
+| 팀 구성 | 4인 팀 프로젝트 |
 | 아키텍처 | MVC Pattern (프레임워크 미사용, 직접 구현) |
 | Backend | Java, Servlet, JSP |
 | Server | Apache Tomcat |
-| Database | Oracle (순수 JDBC — MyBatis, JPA 미사용) |
+| Database | Oracle (MyBatis) |
 | Frontend | HTML, CSS, JavaScript, jQuery, Bootstrap |
 | 외부 API | Naver/Kakao OAuth2, CoolSMS, Chart.js |
 | 보안 | SHA-256 (비밀번호), AES-256 (이메일·전화번호), Gmail SMTP (OTP) |
@@ -29,9 +29,9 @@
 
 <br>
 
-## 👤 담당 역할 (My Contribution)
+## 담당 역할 (My Contribution)
 
-### 🔐 회원 인증 도메인
+### 회원 인증 도메인
 
 | 기능 | 구현 내용 |
 |---|---|
@@ -43,7 +43,7 @@
 | 휴면 계정 해제 | 로그인 시 idle 값 확인 → idle=0 UPDATE → 재로그인 유도 |
 | 아이디 찾기 / 회원탈퇴 | name·email 조회 + session.invalidate() 기반 로그아웃 처리 |
 
-### 📦 마이페이지 — 주문 / 클레임
+### 마이페이지 — 주문 / 클레임
 
 | 기능 | 구현 내용 |
 |---|---|
@@ -51,7 +51,7 @@
 | 주문 상세 조회 | `tbl_order`, `tbl_order_detail`, `tbl_product` JOIN 조회 + OrderDetailDTO 매핑 |
 | 클레임 신청 | 주문상품(odrdetailno) 단위 취소/교환/환불 팝업 (window.open) + radio 버튼 유효성 검사 |
 
-### 🛠️ 백오피스 — 관리자 기능
+### 백오피스 — 관리자 기능
 
 | 기능 | 구현 내용 |
 |---|---|
@@ -66,7 +66,7 @@
 
 <br>
 
-## 🔍 트러블슈팅
+## 트러블슈팅
 
 ### 01. 주문 이력 데이터 보존 — 배송지 스냅샷 적용
 
@@ -144,7 +144,7 @@ REQUEST (사용자 신청)
 ```
 <br>
 
-### 📚 배포 경험 및 학습 내용
+### 배포 경험 및 학습 내용
 
 - Vultr VPS 환경에서 Ubuntu 서버 직접 구성
 - Tomcat 수동 설치 및 WAR 배포 경험
@@ -168,7 +168,7 @@ REQUEST (사용자 신청)
 
 <br>
 
-## ⚠️ 보완 필요
+## 보완 필요
 
 - **클레임 처리완료 DAO**: `tbl_order_detail`, `tbl_order`, `tbl_product` 순차 UPDATE 시 트랜잭션 미적용 → 부분 성공 리스크 존재. `conn.setAutoCommit(false)` 기반 트랜잭션 처리 적용 필요.
 
